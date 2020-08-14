@@ -1,0 +1,21 @@
+plugins {
+    id 'groovy'
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    testCompile group: 'org.testng', name: 'testng', version: '7.3.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+}
+
+test {
+    useTestNG()
+}
