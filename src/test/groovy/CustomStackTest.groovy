@@ -24,4 +24,19 @@ class CustomStackTest {
             assert stack.size() == --size
         }
     }
+
+    @Test
+    void copyStackTest() {
+        def newStack = new CustomStack<Integer>()
+        for (i in 1..100) {
+            newStack.push(i)
+        }
+        def copiedStack = new CustomStack<Integer>(newStack)
+        assert copiedStack.size() == newStack.size()
+        assert copiedStack == newStack
+
+        newStack.size().times {
+            assert newStack.pop() == copiedStack.pop()
+        }
+    }
 }
