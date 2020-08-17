@@ -1,6 +1,6 @@
 
 
-class CustomCollection<E> {
+class CustomCollection<E>{
     protected Integer size = 0
     protected E[] elements = new Object[10] as E[]
 
@@ -13,17 +13,9 @@ class CustomCollection<E> {
         }
     }
 
-    protected E[] copy(Integer copySize, Integer newSize) {
-        E[] newElements = new Object[newSize] as E[]
-        for (int i = 0; i < copySize; i++) {
-            newElements[i] = elements[i]
-        }
-        newElements
-    }
-
     protected E pop() {
         if (size > 0) {
-            E out = elements[size - 1]
+            E out = elements[size - 1] as E
             size--
             elements = copy(size, size) as E[]
             return out
@@ -32,5 +24,13 @@ class CustomCollection<E> {
 
     Integer size() {
         size
+    }
+
+    protected E[] copy(Integer copySize, Integer newSize) {
+        E[] newElements = new Object[newSize] as E[]
+        for (int i = 0; i < copySize; i++) {
+            newElements[i] = elements[i]
+        }
+        newElements
     }
 }
