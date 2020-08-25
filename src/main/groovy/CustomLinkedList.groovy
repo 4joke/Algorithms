@@ -1,3 +1,6 @@
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode
 class CustomLinkedList<E>{
     private Integer size = 0
     private Node<E> lastNode
@@ -38,6 +41,10 @@ class CustomLinkedList<E>{
         Integer getIndex() {
             return index
         }
+
+        void reduceIndex() {
+            this.index--
+        }
     }
 
     void add(E e) {
@@ -55,35 +62,55 @@ class CustomLinkedList<E>{
         }
         size++
         lastNode = thisNode
+        firstNode.setPrevNode(lastNode)
     }
 
     Integer size() { size }
 
     E get(Integer index) {
+        getNode(index).e
+    }
+
+    private Node<E> getNode(Integer index) {
         switch (index) {
             case {it >= size}:
                 throw new ArrayIndexOutOfBoundsException()
                 break
             case {(it == firstNode.index) || (it == 0)}:
-                return firstNode.e
+                return firstNode
             case {it == lastNode.index}:
-                return lastNode.e
+                return lastNode
                 break
             default:
                 if ((index - firstNode.index) <= (lastNode.index - index)) {
                     Node<E> next = firstNode.nextNode
-                    while (index != next.index) {
-                        next = next.nextNode
+                    for(int i = 0; i < (index - firstNode.index); i++) {
+                        if (index == next.index) return next
+                        else next = next.nextNode
                     }
-                    return next.e
                 } else {
                     Node<E> previous = lastNode.prevNode
-                    while (index != previous.index) {
-                        previous = previous.prevNode
+                    for (int i = lastNode.index; i >= 0; i--) {
+                        if (index == previous.index) return previous
+                        else previous = previous.prevNode
                     }
-                    return previous.e
                 }
         }
+    }
+
+    void remove(Integer index) {
+        if (index >= size) throw new ArrayIndexOutOfBoundsException("index = $index; size = $size")
+        Node<E> node = getNode(index)
+        Node<E> prevNode = node.prevNode
+        Node<E> nextNode = node.nextNode
+        if (node == firstNode) firstNode = nextNode
+        prevNode.setNextNode(nextNode)
+        nextNode.setPrevNode(prevNode)
+        for (int i = index + 1; i <= lastNode.index; i++) {
+            nextNode.reduceIndex()
+            nextNode = nextNode.nextNode
+        }
+        --size
     }
 
     E first() {

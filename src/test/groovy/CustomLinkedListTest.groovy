@@ -22,4 +22,13 @@ class CustomLinkedListTest {
             assert list.get(i) == i
         }
     }
+
+    @Test(dependsOnMethods = 'getTest')
+    void removeTest() {
+        def size = list.size()
+        size.times {
+            list.remove(0)
+            assert --size == list.size()
+        }
+    }
 }
