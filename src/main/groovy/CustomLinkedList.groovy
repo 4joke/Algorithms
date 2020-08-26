@@ -47,6 +47,20 @@ class CustomLinkedList<E>{
         }
     }
 
+    Integer size() { size }
+
+    E get(Integer index) {
+        getNode(index).e
+    }
+
+    E first() {
+        firstNode.e
+    }
+
+    E last() {
+        lastNode.e
+    }
+
     void add(E e) {
         Node<E> thisNode
         if (size == 0) {
@@ -63,12 +77,6 @@ class CustomLinkedList<E>{
         size++
         lastNode = thisNode
         firstNode.setPrevNode(lastNode)
-    }
-
-    Integer size() { size }
-
-    E get(Integer index) {
-        getNode(index).e
     }
 
     private Node<E> getNode(Integer index) {
@@ -92,7 +100,7 @@ class CustomLinkedList<E>{
                     Node<E> previous = lastNode.prevNode
                     for (int i = lastNode.index; i >= 0; i--) {
                         if (index == previous.index) return previous
-                        else previous = previous.prevNode
+                        previous = previous.prevNode
                     }
                 }
         }
@@ -113,11 +121,24 @@ class CustomLinkedList<E>{
         --size
     }
 
-    E first() {
-        firstNode.e
-    }
-
-    E last() {
-        lastNode.e
+    Boolean contains(E e) {
+        switch (e) {
+            case firstNode.e:
+                return true
+                break
+            case lastNode.e:
+                return true
+                break
+            default:
+                Node<E> node = firstNode.nextNode
+                Boolean out = false
+                Integer times = 0
+                while ((times <= size) && !out) {
+                    times++
+                    node = node.nextNode
+                    out = (node.e == e)
+                }
+                return out
+        }
     }
 }

@@ -23,7 +23,22 @@ class CustomLinkedListTest {
         }
     }
 
-    @Test(dependsOnMethods = 'getTest')
+    @Test(dependsOnMethods = 'addTest')
+    void containsTest() {
+        def random = new Random()
+        list.size().times {
+            assert list.contains(random.nextInt(list.size()))
+        }
+    }
+
+    @Test(dependsOnMethods = 'addTest')
+    void negativeContainsTest() {
+        for (int i = 100; i < 200; i++) {
+            assert !list.contains(i)
+        }
+    }
+
+    @Test(dependsOnMethods = 'containsTest')
     void removeTest() {
         def size = list.size()
         size.times {
