@@ -41,9 +41,12 @@ class CustomLinkedListTest {
     @Test(dependsOnMethods = 'containsTest')
     void removeTest() {
         def size = list.size()
+        def value
         size.times {
+            value = list.get(0)
             list.remove(0)
             assert --size == list.size()
+            assert !list.contains(value)
         }
     }
 }

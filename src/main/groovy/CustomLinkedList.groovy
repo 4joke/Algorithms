@@ -111,34 +111,45 @@ class CustomLinkedList<E>{
         Node<E> node = getNode(index)
         Node<E> prevNode = node.prevNode
         Node<E> nextNode = node.nextNode
-        if (node == firstNode) firstNode = nextNode
-        prevNode.setNextNode(nextNode)
-        nextNode.setPrevNode(prevNode)
-        for (int i = index + 1; i <= lastNode.index; i++) {
-            nextNode.reduceIndex()
-            nextNode = nextNode.nextNode
+        if(size != 1) {
+            prevNode = node.prevNode
+            nextNode = node.nextNode
+        }
+        if ((node == firstNode) && size != 1) firstNode = nextNode
+        if (size != 1) {
+            prevNode.setNextNode(nextNode)
+            nextNode.setPrevNode(prevNode)
+            for (int i = index + 1; i <= lastNode.index; i++) {
+                nextNode.reduceIndex()
+                nextNode = nextNode.nextNode
+            }
+        } else {
+            firstNode = null
+            lastNode = null
         }
         --size
     }
 
     Boolean contains(E e) {
-        switch (e) {
-            case firstNode.e:
-                return true
-                break
-            case lastNode.e:
-                return true
-                break
-            default:
-                Node<E> node = firstNode.nextNode
-                Boolean out = false
-                Integer times = 0
-                while ((times <= size) && !out) {
-                    times++
-                    node = node.nextNode
-                    out = (node.e == e)
-                }
-                return out
-        }
+        if (size > 0) {
+            switch (e) {
+                case firstNode.e:
+                    return true
+                    break
+                case lastNode.e:
+                    return true
+                    break
+                default:
+                    Node<E> node = firstNode.nextNode
+                    Boolean out = false
+                    Integer times = 0
+                    while ((times <= size) && !out) {
+                        times++
+                        node = node.nextNode
+                        out = (node.e == e)
+                    }
+                    return out
+            }
+        } else return false
     }
 }
